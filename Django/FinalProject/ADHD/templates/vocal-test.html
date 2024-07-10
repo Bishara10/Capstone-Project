@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://db.onlinewebfonts.com/c/70157cb1204ca26691b11450306cd5f4?family=Harmonia+Sans+W06+Semi+Bold+Cn"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <title>NODUS - ADHD Detection</title>
+    <style>
+        body {
+            background-image: url("{% static 'images/background-FAQ.png' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #0063A0;
+        }
+
+        .header {
+            background-color: #0f75bc;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header img {
+            width: 70px;
+        }
+
+        .header nav a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .header nav a:hover {
+            color: #16B06F;
+        }
+
+        .hero {
+            background-image: url("{% static 'images/background-FAQ.png' %}");
+            /* Add your image URL here */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 80px 20px 20px;
+            height: 500px;
+        }
+
+        .hero h1 {
+            margin: 0px;
+            font-size: 3em;
+            color: #0063A0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .hero p {
+            margin: 10px;
+            font-size: 2em;
+            color: #0063A0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .hero button {
+            margin: 20px;
+            background-color: #01C5A2;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        .hero button:hover {
+            background-color: #019c84;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            margin: 20px 0px;
+            padding: 50px 20px;
+            text-align: center;
+            /* background-color: #e9f5fe; */
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+        }
+
+        .content h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .columns {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            width: 75%;
+            align-items: center;
+            align-self: center;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .column img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .column h3 {
+            margin: 0px;
+        }
+
+        .footer {
+            background-color: #0f75bc;
+            color: white;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            bottom: 0px;
+            width: 100%;
+        }
+
+
+        .footer div {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            transition: text-decoration 0.3s ease;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer input[type="email"] {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            transition: border 0.3s ease;
+        }
+
+        .footer input[type="email"]:focus {
+            outline: none;
+            border: 2px solid #00a859;
+        }
+
+        .footer input[type="submit"] {
+            background-color: #00a859;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .footer input[type="submit"]:hover {
+            background-color: #007d40;
+        }
+
+        .logo-name {
+            text-align: left;
+            text-decoration: none;
+            align-items: center;
+            color: white;
+            font-size: x-large;
+            font: bold;
+            transition: color 0.3s ease;
+        }
+
+        .logo-name:hover {
+            color: #16B06F;
+        }
+
+        .section-2-title {
+            padding: 0px 10% 0px 10%;
+            text-align: left;
+        }
+
+        .title-icon {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .section-2-content {
+            width: 60%;
+            justify-content: center;
+        }
+
+        .section-2-content button {
+            margin: 20px;
+            background-color: #01C5A2;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        .section-2-content button:hover {
+            background-color: #019c84;
+        }
+
+        #mic {
+            background-color: #01C5A2;
+        }
+
+        #mic:hover {
+            background-color: #019c84;
+        }
+
+        #mic.is-recording {
+            background-color: #d33636;
+        }
+
+        #mic.is-recording:hover {
+            background-color: #952525;
+        }
+
+        .test-content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .text-to-read {
+            padding: 10px;
+            width: 80%;
+            border-radius: 20px;
+            background-color: #99c1da;
+        }
+
+        .text-to-read h1 {
+            color: black;
+        }
+
+        .microphone {
+            display: flex;
+            flex-direction: column-reverse;
+            padding: 10px;
+            border-radius: 20px;
+            width: 20%;
+            height: 128px;
+            background-color: grey;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div style="justify-content: right; display: flex; text-align: center; align-items: center;">
+            <img src="{% static 'images/nodus-icon-removebg-preview.png'%}" alt="NODUS Logo" sizes="50px">
+            <!-- Add your logo URL here -->
+            <a class="logo-name" href="#" onclick="location.href='{% url 'landing' %}'"><strong>NODUS</strong></a>
+        </div>
+        <nav style="padding: 10px;">
+            <a href="#" onclick="location.href='{% url 'landing' %}'">Home</a>
+            <a href="#" onclick="location.href='{% url 'instructions' %}'">Start Test</a>
+            <a href="#" onclick="location.href='{% url 'FAQ' %}'">FAQ</a>
+        </nav>
+    </header>
+
+
+
+    <section class="content">
+        <div class="section-2-title">
+            <div class="title-icon">
+                <img src="{% static 'images/microphone.png'%}" style="margin:20px;" alt="">
+                <h2>Section #2 - Vocal Test</h2>
+            </div>
+            <h4>Read the following list of words out loud and into the microphone. Press the microphone button to record
+                when ready. </h4>
+        </div>
+
+        <div class="section-2-content">
+            <div class="test-content">
+                <div class="text-to-read">
+                    <h1>The cat sat on the mat.<br>
+                        The quick brown fox jumps over the lazy dog. <br>
+                        She sells seashells by the seashore. <br>
+                        He builds tall towers with blocks. <br>
+                        I love ice cream and cake. <br>
+                        The apple is red and shiny. <br>
+                        I jump up and down with joy.</h1>
+                </div>
+                <div class="microphone">
+                    <button class="mic-toggle" id="mic">
+                        <span class="material-icons">mic</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="button">
+                <button id="next-page-button" onclick="location.href='{% url 'questionnaire' %}'"
+                    style="display: none;">Next</button>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <footer class="footer">
+        <div style="text-align: center; align-items: center; padding: 20px;">
+            <h3>Learn more about ADHD</h3>
+            <p><a href="https://en.wikipedia.org/wiki/Attention_deficit_hyperactivity_disorder">Wikipedia - ADHD</a></p>
+            <p><a href="https://www.cdc.gov/adhd/index.html">CDC.gov - ADHD</a></p>
+        </div>
+        <div style="padding: 20px;">
+            <h3>Contact Us</h3>
+            <p>Safwan.Halabi@e.braude.ac.il</p>
+            <p>Bishara.Bisharat@e.braude.ac.il</p>
+        </div>
+        <div style="padding: 20px; display: flex; align-items: center; justify-content: center; flex-direction: row;">
+            <h2><strong style="font-size: 30px;">NODUS</strong></h2>
+            <img src="{% static 'images/nodus-icon-removebg-preview.png'%}" alt="NODUS Logo" sizes="50px"
+                style="width: 70px;">
+        </div>
+    </footer>
+    <script>
+
+        const mic_btn = document.querySelector('#mic');
+        const playback = document.querySelector('.playback');
+        const next_btn = document.getElementById('next-page-button');
+
+        mic_btn.addEventListener('click', ToggleMic);
+        next_btn.addEventListener('click', () => {
+            sendRecording();
+
+        });
+
+        let global_blob = null;
+        let recorded = false;
+        let can_record = false;
+        let is_recording = false;
+        let recorder = null;
+        let chunks = [];
+
+        async function sendRecording() {
+            const formData = new FormData();
+            formData.append('audio-recording', global_blob, 'audio-recording.mp3');
+
+            const response = await fetch('/audio-configuration/', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.status === 200) {
+                console.log("Audio upload complete, proceed to next test");
+
+            } else {
+
+                console.error('Video upload failed');
+            }
+        }
+
+        function SetupAudio() {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices
+                    .getUserMedia({
+                        audio: true
+                    })
+                    .then(SetupStream)
+                    .catch(err => {
+                        console.error(err)
+                    });
+            }
+        }
+
+        function SetupStream(stream) {
+            recorder = new MediaRecorder(stream);
+
+            recorder.ondataavailable = e => {
+                chunks.push(e.data);
+            }
+
+            recorder.onstop = e => {
+                const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" });
+                recorded = !recorded;
+                global_blob = blob;
+                next_btn.style.display = 'block';
+
+            }
+
+            can_record = true;
+        }
+
+        function ToggleMic() {
+            if (!can_record) return;
+
+            is_recording = !is_recording
+
+            if (is_recording) {
+                recorder.start();
+                mic_btn.classList.add("is-recording");
+                // mic_btn.textContent = "Stop Recording";
+            } else {
+                recorder.stop();
+                mic_btn.classList.remove("is-recording")
+                // mic_btn.textContent = "Record";
+            }
+        }
+
+        SetupAudio();
+    </script>
+    <audio class="playback"></audio>
+</body>
+
+</html>
