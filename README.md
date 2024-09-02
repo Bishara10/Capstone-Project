@@ -1,4 +1,4 @@
-# ADHD Detection in Children Using Deep Learning, Computer Vision and Vocal Analysis, and Possible Solutions.
+# NODUS - ADHD Detection in Children Using Deep Learning, Computer Vision and Vocal Analysis, and Possible Solutions.
 
 <h2>Overview</h2>
 Software engineering capstone project for detecting adhd in children, incorporating computer vision, vocal analysis and deep learning, accessible by a simple, user friendly WEB interface.
