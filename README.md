@@ -1,7 +1,7 @@
 # NODUS - ADHD Detection in Children Using Deep Learning, Computer Vision and Vocal Analysis, and Possible Solutions.
 
 <h2>Overview</h2>
-Software engineering capstone project for detecting adhd in children, incorporating computer vision, vocal analysis and deep learning, accessible by a simple, user friendly WEB interface.
+Software Engineering capstone project for detecting adhd in children, incorporating computer vision, vocal analysis and deep learning, accessible by a simple, user friendly WEB interface.
 Our program will provide eye-detection along with vocal tests, which will track the patient's eye movements and vocal performance, that will be later analyzed by our deep learning model for detecting ADHD, providing an overall ADHD assessment with possible solutions.
 <br><br>
 Eye tests will check the patient's focus in a busy environment, by tracking eye movements, how much the user has deviated his vision from the target which the patient is expected to focus on, and other various parameters such as response time.
