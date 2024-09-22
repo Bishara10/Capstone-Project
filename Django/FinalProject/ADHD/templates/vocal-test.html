@@ -360,24 +360,39 @@
     </footer>
     <script>
 
+        function customAlert(message) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Recording sent to server',
+                text: message,
+                confirmButtonText: 'OK'
+            });
+        }
+
+        let next_flag = true;
+
         const mic_btn = document.querySelector('#mic');
         const playback = document.querySelector('.playback');
         const next_btn = document.getElementById('next-page-button');
 
         mic_btn.addEventListener('click', ToggleMic);
         next_btn.addEventListener('click', async () => {
-            const navigationElements = document.querySelectorAll('a.navigation-element');
-            navigationElements.forEach(element => {
-                element.href = '#'; // Set href to # to avoid navigation
-                element.onclick = (event) => {
-                    event.preventDefault(); // Prevent default behavior
-                    return false; // Ensure any default action is cancelled
-                };
+            if (next_flag) {
+                next_flag = false;
+                console.log("Next pressed");
+                const navigationElements = document.querySelectorAll('a.navigation-element');
+                navigationElements.forEach(element => {
+                    element.href = '#'; // Set href to # to avoid navigation
+                    element.onclick = (event) => {
+                        event.preventDefault(); // Prevent default behavior
+                        return false; // Ensure any default action is cancelled
+                    };
+                    
             });
-
-            await sendRecording();
-            location.href = '{% url 'questionnaire' %}';
-
+                customAlert('Please wait, you will be directed to the next page shortly.');
+                await sendRecording();
+                location.href = '{% url 'questionnaire' %}';
+            }
         });
 
         let global_blob = null;
