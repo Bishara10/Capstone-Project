@@ -4,5 +4,5 @@
 <p>The server will start running on localhost.</p>
 
 <h1> Dependencies </h1>
-<p>There is a requirements.txt file provided in this folder.</p>
+<p>There is a requirements.txt file and an enviornment.yml file provided in this folder.</p>
 <p>Keep in mind the server runs on python 3.10.12 which is crucial for some libraries to work!</p>
