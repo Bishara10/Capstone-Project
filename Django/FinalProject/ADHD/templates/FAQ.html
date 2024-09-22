@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% load static %}
+{% load static %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://db.onlinewebfonts.com/c/70157cb1204ca26691b11450306cd5f4?family=Harmonia+Sans+W06+Semi+Bold+Cn"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <title>FAQ - Nodus</title>
+    <title>NODUS - FAQ</title>
     <style>
         body {
             background-image: url("{% static 'images/background-FAQ.png' %}");
@@ -221,12 +222,13 @@
 <body>
     <header class="header">
         <div style="justify-content: right; display: flex; text-align: center; align-items: center;">
-            <img src="{% static 'images/nodus-icon-removebg-preview.png' %}" alt="NODUS Logo" sizes="50px"> <!-- Add your logo URL here -->
+            <img src="{% static 'images/nodus-icon-removebg-preview.png' %}" alt="NODUS Logo" sizes="50px">
+            <!-- Add your logo URL here -->
             <a class="logo-name" href="#" onclick="location.href='{% url 'landing' %}'"><strong>NODUS</strong></a>
         </div>
         <nav style="padding: 10px;">
             <a href="#" onclick="location.href='{% url 'landing' %}'">Home</a>
-            <a href="#" onclick="location.href='{% url 'instructions' %}'">Start Test</a>
+            <a href="#" onclick="location.href='{% url 'consent' %}'">Start Test</a>
             <a href="#" onclick="location.href='{% url 'FAQ' %}'">FAQ</a>
         </nav>
     </header>
@@ -304,9 +306,37 @@
         </div>
         <div style="padding: 20px; display: flex; align-items: center; justify-content: center; flex-direction: row;">
             <h2><strong style="font-size: 30px;">NODUS</strong></h2>
-            <img src="{% static 'images/nodus-icon-removebg-preview.png' %}" alt="NODUS Logo" sizes="50px" style="width: 70px;">
+            <img src="{% static 'images/nodus-icon-removebg-preview.png' %}" alt="NODUS Logo" sizes="50px"
+                style="width: 70px;">
         </div>
     </footer>
+
+    <script>
+
+        async function cleanUp() {
+            const response1 = await fetch('/done/', {
+                method: 'GET',
+                body: null
+            });
+
+            if (response1.ok) {
+                // Redirect to the new page
+                console.log("flushed files from backend")
+            } else {
+                const data = await response.json();
+                const message = data.message;
+                customAlert(message + ", try running the test again to remove your files");
+            }
+        }
+
+        // Clean up files in backend
+        document.addEventListener('DOMContentLoaded', (event) => {
+            cleanUp();
+        });
+
+    </script>
+
+
 </body>
 
 </html>

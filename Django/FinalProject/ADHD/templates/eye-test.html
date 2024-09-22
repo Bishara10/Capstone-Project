@@ -42,7 +42,7 @@
         let reactionTimeArrayDistractors = [];
         let flag = false;
         let hasPressed = false;
-        let concludedFlag = false;
+        let concludedFlag = false; // CHANGE TO FALSE WHEN PUSHING TO PROD
 
         const imagePaths = [
             staticUrls.images.car,
@@ -274,7 +274,7 @@
 
 
     </script>
-    <title>Eye-Test - Nodus</title>
+    <title>NODUS - Eye Test</title>
     <style>
         body {
             background-image: url("{% static 'images/background-FAQ.png' %}");
@@ -495,12 +495,13 @@
         <div style="justify-content: right; display: flex; text-align: center; align-items: center;">
             <img src="{% static 'images/nodus-icon-removebg-preview.png'%}" alt="NODUS Logo" sizes="50px">
             <!-- Add your logo URL here -->
-            <a class="logo-name" href="#" onclick="location.href='{% url 'landing' %}'"><strong>NODUS</strong></a>
+            <a class="logo-name navigation-element" href="#"
+                onclick="location.href='{% url 'landing' %}'"><strong>NODUS</strong></a>
         </div>
         <nav style="padding: 10px;">
-            <a href="#" onclick="location.href='{% url 'landing' %}'">Home</a>
-            <a href="#" onclick="location.href='{% url 'instructions' %}'">Start Test</a>
-            <a href="#" onclick="location.href='{% url 'FAQ' %}'">FAQ</a>
+            <a class="navigation-element" href="#" onclick="location.href='{% url 'landing' %}'">Home</a>
+            <a class="navigation-element" href="#" onclick="location.href='{% url 'consent' %}'">Start Test</a>
+            <a class="navigation-element" href="#" onclick="location.href='{% url 'FAQ' %}'">FAQ</a>
         </nav>
     </header>
     <section class="hero">
@@ -514,15 +515,15 @@
         <button id="start-stop-button">Record</button>
         <button id="restore-elements-button" style="display:none;">Restore Elements</button>
 
-        <!-- Add the buttons here -->
-        <button id="next-test-button" onclick="location.href='{% url 'vocal' %}'" style="display:none;">Next
-            Test</button>
+        <!-- Add the buttons here
+        <button id="next-test-button" style="display:none;">Next
+            Test</button> -->
 
         <script>
             const webcamElem = document.getElementById("webcam");
             const downloadLink = document.getElementById("download-link");
             const startStopButton = document.getElementById("start-stop-button");
-            const nextTestButton = document.getElementById("next-test-button");
+            // const nextTestButton = document.getElementById("next-test-button");
             let title = document.getElementById("title");
             let instructions = document.getElementById("instructions");
             let instructions1 = document.getElementById("instructions-1");
@@ -539,12 +540,10 @@
             const instructionsClone = instructions.cloneNode(true);
             const instructions1Clone = instructions1.cloneNode(true);
 
-
-
             // When test concludes the function below isn't called
             async function handleRecordingStop(blob) {
                 if (initialCheck) {
-                    instructions.textContent = "Awaiting result from server, please wait a couple of seconds.";
+                    instructions.textContent = "Awaiting result from server, please wait a few seconds.";
                     Awaiting = !Awaiting;
 
                     const formData = new FormData();
@@ -578,7 +577,18 @@
                 } else {
                     try {
                         if (concludedFlag) {
+                            console.log("ENTERED")
+                            const navigationElements = document.querySelectorAll('a.navigation-element');
+                            navigationElements.forEach(element => {
+                                element.href = '#'; // Set href to # to avoid navigation
+                                element.onclick = (event) => {
+                                    event.preventDefault(); // Prevent default behavior
+                                    return false; // Ensure any default action is cancelled
+                                };
+                            });
                             concludedFlag = !concludedFlag;
+                            instructions.textContent = "Sending video to server, you will be redirected to the next page shortly.";
+                            instructions1.textContent = "";
                             const formData = new FormData();
                             formData.append('recorded-video', blob, 'recorded-video.webm');
 
@@ -608,6 +618,7 @@
                                     console.error('Video upload failed');
                                 }
                             }
+                            location.href = '{% url 'vocal' %}'
                         }
 
                     } catch (error) {
@@ -639,7 +650,7 @@
                         title.remove();
                         instructions.remove();
                         instructions1.remove();
-                        nextTestButton.style.display = "none";
+                        // nextTestButton.style.display = "none";
 
                         if (!initialCheck) {
                             testRunning = true;
@@ -698,12 +709,14 @@
             function testConclude() {
                 isRecording = !isRecording;
                 startStopButton.textContent = 'Start Test';
+                instructions1.remove();
+                startStopButton.remove();
                 mediaRecorder.stop();
                 restoreElements();
 
                 // test concluded successfully
                 // show the option of moving forward to the next test and the option to retake the test
-                nextTestButton.style.display = 'block';
+                // nextTestButton.style.display = 'block';
             }
 
             document.addEventListener('endTest', testConclude);

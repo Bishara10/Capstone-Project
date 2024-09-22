@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <title>NODUS - ADHD Detection</title>
+    <title>NODUS - Questionnaire</title>
     <style>
         body {
             background-image: url("{% static 'images/background-FAQ.png' %}");
@@ -305,6 +305,53 @@
             display: flex;
             justify-content: space-evenly;
         }
+
+        .form-section-model-train-group {
+            padding: 0px 0px 4% 5%;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .form-section-model-train-group input[type="radio"] {
+            opacity: 0;
+            position: absolute;
+        }
+
+        .form-section-model-train-group label {
+            display: inline-block;
+            width: 100px;
+            height: 50px;
+            border: 2px solid #007bff;
+            border-radius: 10%;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+            background-color: white;
+            color: #007bff;
+            transition: all 0.3s ease;
+            font-size: 20px;
+        }
+
+        .form-section-model-train-group input[type="radio"]:checked+label {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .form-section-model-train-group label:hover {
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        }
+
+        .dropdown {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .dropdown select {
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: 1px solid #007bff;
+        }
     </style>
 </head>
 
@@ -313,12 +360,13 @@
         <div style="justify-content: right; display: flex; text-align: center; align-items: center;">
             <img src="{% static 'images/nodus-icon-removebg-preview.png'%}" alt="NODUS Logo" sizes="50px">
             <!-- Add your logo URL here -->
-            <a class="logo-name" href="#" onclick="location.href='{% url 'landing' %}'"><strong>NODUS</strong></a>
+            <a class="logo-name navigation-element" href="#"
+                onclick="location.href='{% url 'landing' %}'"><strong>NODUS</strong></a>
         </div>
         <nav style="padding: 10px;">
-            <a href="#" onclick="location.href='{% url 'landing' %}'">Home</a>
-            <a href="#" onclick="location.href='{% url 'instructions' %}'">Start Test</a>
-            <a href="#" onclick="location.href='{% url 'FAQ' %}'">FAQ</a>
+            <a class="navigation-element" href="#" onclick="location.href='{% url 'landing' %}'">Home</a>
+            <a class="navigation-element" href="#" onclick="location.href='{% url 'consent' %}'">Start Test</a>
+            <a class="navigation-element" href="#" onclick="location.href='{% url 'FAQ' %}'">FAQ</a>
         </nav>
     </header>
 
@@ -702,8 +750,8 @@
                         </div>
 
                         <div class="form-section-question-group">
-                            <label for="20">20. Where is there impairment? (Choose all that apply. If none, leave the
-                                options blank.)</label>
+                            <label for="20">20. Where is there impairment? (Choose all that apply. If none, choose None
+                                )</label>
                             <div class="form-section-answer-group">
                                 <input type="checkbox" name="ans20[]" id="ans20-0" />
                                 <label for="ans20-0" style="width: 80px;">Home</label>
@@ -713,13 +761,30 @@
 
                                 <input type="checkbox" name="ans20[]" id="ans20-2" />
                                 <label for="ans20-2" style="width: 80px;">Socially</label>
+
+                                <input type="checkbox" name="ans20[]" id="ans20-3" />
+                                <label for="ans20-3" style="width: 80px;">None</label>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-button">
-                        <button type="button" onclick="submitForm()">Submit</button>
-                    </div>
+                    <div class="form-section">
+                        <h1 style="text-align: center;">Model Training</h1>
+                        <div class="form-section-model-train-group" style="text-align: center;">
+                            <label for="trainModel" style="width: 400px; text-align: center;">Use this data to train our
+                                model?</label>
+                            <div class="form-section-answer-group">
+                                <input type="radio" name="trainModel" id="trainModel-yes" onclick="" required />
+                                <label for="trainModel-yes">Yes</label>
+
+                                <input type="radio" name="trainModel" id="trainModel-no" onclick="" />
+                                <label for="trainModel-no">No</label>
+                            </div>
+                        </div>
+                        <div class="form-button">
+                            <button type="button" onclick="submitForm()">Submit</button>
+                        </div>
+
 
                 </form>
             </div>
@@ -747,6 +812,7 @@
     </footer>
 
     <script>
+
         function customAlert(message) {
             Swal.fire({
                 icon: 'warning',
@@ -787,6 +853,16 @@
         }
 
         function submitForm() {
+
+            const navigationElements = document.querySelectorAll('a.navigation-element');
+            navigationElements.forEach(element => {
+                element.href = '#'; // Set href to # to avoid navigation
+                element.onclick = (event) => {
+                    event.preventDefault(); // Prevent default behavior
+                    return false; // Ensure any default action is cancelled
+                };
+            });
+
             // Array to store answers
             var answers = [];
 
@@ -802,12 +878,21 @@
             var question20Answer = getSelectedCheckboxes('ans20[]');
             answers.push(question20Answer);
 
+            // Handle radio buttons for model training
+            var trainModelAnswer = getSelectedAnswer('trainModel');
+            if (trainModelAnswer === null) {
+                answers.push(null);
+            }
+            if (trainModelAnswer === "Yes") {
+                answers.push("Train model");
+            }
+
             // Log answers to console (you can remove this line in production)
             console.log(answers);
             // You can process the answers further here, like sending them to a server
 
             var empty = false;
-            for (var i = 1; i <= 20; i++) {
+            for (var i = 0; i < answers.length; i++) {
                 if (answers[i] === null) {
                     empty = true;
                     break;
@@ -840,21 +925,29 @@
         function getSelectedCheckboxes(name) {
             var checkboxes = document.getElementsByName(name);
             var selectedCheckboxes = [];
+            var flag = true;
             var totalScore = 0;
             for (var k = 0; k < checkboxes.length; k++) {
                 if (checkboxes[k].checked) {
                     var answerText = checkboxes[k].nextElementSibling.textContent.trim();
                     if (answerText === "Home") {
+                        flag = false;
                         totalScore += 1;
                     } else if (answerText === "School") {
+                        flag = false;
                         totalScore += 2;
                     } else if (answerText === "Socially") {
+                        flag = false;
                         totalScore += 3;
+                    } else if (answerText === "None") {
+                        flag = false;
+                        totalScore += 0;
                     }
                 }
             }
-            return totalScore > 0 ? totalScore : null;
+            return flag === false ? totalScore : null;
         }
+
     </script>
 
 

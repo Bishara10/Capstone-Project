@@ -10,7 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/dist/ffmpeg.min.js"></script>
-    <title>Eye-Test - Nodus</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>NODUS - Analyzing...</title>
     <style>
         body {
             background-image: url("{% static 'images/background-FAQ.png' %}");
@@ -231,12 +232,12 @@
         <div style="justify-content: right; display: flex; text-align: center; align-items: center;">
             <img src="{% static 'images/nodus-icon-removebg-preview.png'%}" alt="NODUS Logo" sizes="50px">
             <!-- Add your logo URL here -->
-            <a class="logo-name" href="#" onclick="location.href='{% url 'landing' %}'"><strong>NODUS</strong></a>
+            <a class="logo-name" href="#" onclick="doNothing(event)"><strong>NODUS</strong></a>
         </div>
         <nav style="padding: 10px;">
-            <a href="#" onclick="location.href='{% url 'landing' %}'">Home</a>
-            <a href="#" onclick="location.href='{% url 'ADHD' %}'">Start Test</a>
-            <a href="#" onclick="location.href='{% url 'FAQ' %}'">FAQ</a>
+            <a href="#" onclick="doNothing(event)">Home</a> <!-- disable the navbar buttons in this page -->
+            <a href="#" onclick="doNothing(event)">Start Test</a>
+            <a href="#" onclick="doNothing(event)">FAQ</a>
         </nav>
     </header>
     <section class="hero">
@@ -244,22 +245,73 @@
         <p id="instructions">The server is analyzing your test results, this process will take a couple of minutes.</p>
 
         <script>
-            async function nextPage() {
-                const response1 = await fetch('/results/', {
-                    method: 'GET',
-                    body: null
-                });
 
-                if (response1.ok) {
+            function doNothing(event) {
+                        event.preventDefault(); // Prevent the default anchor click behavior
+                        event.stopPropagation(); // Stop the event from bubbling up
+                        console.log('Anchor tag clicked, but it does nothing.');
+            }
+
+
+            function customAlert(message) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Incomplete Form',
+                    text: message,
+                    confirmButtonText: 'OK'
+                });
+            }
+
+
+            // Add functionality to save, add flag "saveData" to this request for that to happen
+            async function nextPage() {
+
+                const formData = new FormData();
+                formData.append('saveData', true);
+
+                var response1 = null;
+
+                // Take this from an input you will add in the questionnaire page
+                let saveData = true;
+
+                if (saveData) {
+                    response1 = await fetch('/results/', {
+                        method: 'POST',
+                        body: formData
+                    });
+                }
+                else {
+                    response1 = await fetch('/results/', {
+                        method: 'GET',
+                        body: null
+                    });
+                }
+
+                if (response1.status == 200) {
                     // Redirect to the new page
                     window.location.href = response1.url;
                 } else {
-                    console.error('Error - something failed');
+                    const data = await response1.json();
+                    const message = data.message;
+                    customAlert(message + ", redirecting you to home page");
+                    await new Promise(r => setTimeout(r, 3000));
+                    const response = await fetch('/landing', {
+                        method: 'GET',
+                        body: null
+                    });
+                    if (response.status == 200) {
+                        // Redirect to the new page
+                        window.location.href = response.url;
+                    }
+                    else {
+                        customAlert("Error - couldn't route to home page, please do so manuanlly");
+                    }
                 }
             }
 
             // Call nextPage when the script loads
             nextPage();
+
         </script>
     </section>
     <footer class="footer">

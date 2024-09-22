@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% load static %}
+{% load static %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://db.onlinewebfonts.com/c/70157cb1204ca26691b11450306cd5f4?family=Harmonia+Sans+W06+Semi+Bold+Cn"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <title>Instructions - Nodus</title>
+    <title>NODUS - Instructions</title>
     <style>
         body {
             background-image: url("{% static 'images/background-FAQ.png' %}");
@@ -22,6 +23,11 @@
             flex-direction: column;
             min-height: 100vh;
         }
+
+        ul {
+            list-style-type: none;
+        }
+
 
         .header {
             background-color: #0f75bc;
@@ -221,12 +227,13 @@
 <body>
     <header class="header">
         <div style="justify-content: right; display: flex; text-align: center; align-items: center;">
-            <img src="{% static 'images/nodus-icon-removebg-preview.png' %}" alt="NODUS Logo" sizes="50px"> <!-- Add your logo URL here -->
+            <img src="{% static 'images/nodus-icon-removebg-preview.png' %}" alt="NODUS Logo" sizes="50px">
+            <!-- Add your logo URL here -->
             <a class="logo-name" href="#" onclick="location.href='{% url 'landing' %}'"><strong>NODUS</strong></a>
         </div>
         <nav style="padding: 10px;">
             <a href="#" onclick="location.href='{% url 'landing' %}'">Home</a>
-            <a href="#" onclick="location.href='{% url 'instructions' %}'">Start Test</a>
+            <a href="#" onclick="location.href='{% url 'consent' %}'">Start Test</a>
             <a href="#" onclick="location.href='{% url 'FAQ' %}'">FAQ</a>
         </nav>
     </header>
@@ -241,20 +248,23 @@
                 <ul>
                     <li style="display:flex;">
                         <p><strong>1. Click either "Allow this time" or "Allow on every visit" when this popup
-                                appears, if you don't see this image - refresh the page.</strong></p>
+                                appears, if you don't see this image - refresh the page or configure your browsers
+                                permissions.</strong></p>
                         <img src="{% static 'images/allow-camera.png'%}" alt="NODUS Logo" sizes="10px">
                     </li>
                     <br>
                     <li>
-                        <p><strong>2. When first starting the eye-test the system first has to be configurated, all you have
+                        <p><strong>2. When first starting the eye-test the system first has to be configurated, all you
+                                have
                                 to do
                                 is look at the center of the page at the red dot and then press start test.</strong>
                         </p>
                     </li>
                     <br>
                     <li>
-                        <p><strong>3. During the eye-test you will need to look at the red dot at all times, and press the
-                                spacebar when you see the red dot change to green.</strong>
+                        <p><strong>3. During the eye-test you will need to look at the red dot at all times, and press
+                                the
+                                spacebar when you see "press" inside the red dot.</strong>
                         </p>
                     </li>
                     <br>
@@ -264,10 +274,23 @@
                     </li>
                     <br>
                     <li>
-                        <p><strong>5. During the vocal-test you will need to press on the microphone icon, if the icon is red that means that you're recording audio,
-                            you will then read the paragraph out-loud into the microphone, then press on the microphone icon again to make it turn green.
-                            you will then press on the "next" button that appears to navigate to the questionnaire part.
-                        </strong>
+                        <p><strong>5. During the vocal-test you will need to press on the microphone icon, if the icon
+                                is red that means that you're recording audio,
+                                you will then read the paragraph out-loud into the microphone, then press on the
+                                microphone icon again to make it turn green.
+                                you will then press on the "next" button that appears to navigate to the questionnaire
+                                part.
+                            </strong>
+                        </p>
+                    </li>
+                    <br>
+                    <li>
+                        <p><strong>6. If at any point in time during the test you press on the logo on the top-left, the
+                                FAQ button, the Start Test button or Home button the test will be cancelled and you will
+                                be redirected to another page.
+                                <br>Avoid pressing on any button on the navbar before getting to the results page at the
+                                end.
+                            </strong>
                         </p>
                     </li>
                     <br>
@@ -292,9 +315,35 @@
         </div>
         <div style="padding: 20px; display: flex; align-items: center; justify-content: center; flex-direction: row;">
             <h2><strong style="font-size: 30px;">NODUS</strong></h2>
-            <img src="{% static 'images/nodus-icon-removebg-preview.png' %}" alt="NODUS Logo" sizes="50px" style="width: 70px;">
+            <img src="{% static 'images/nodus-icon-removebg-preview.png' %}" alt="NODUS Logo" sizes="50px"
+                style="width: 70px;">
         </div>
     </footer>
+
+    <script>
+        async function cleanUp() {
+            const response1 = await fetch('/done/', {
+                method: 'GET',
+                body: null
+            });
+
+            if (response1.ok) {
+                // Redirect to the new page
+                console.log("flushed files from backend")
+            } else {
+                const data = await response.json();
+                const message = data.message;
+                customAlert(message + ", try running the test again to remove your files");
+            }
+        }
+
+        // Clean up files in backend
+        document.addEventListener('DOMContentLoaded', (event) => {
+            cleanUp();
+        });
+    </script>
+
+
 </body>
 
 </html>
